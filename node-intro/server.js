@@ -25,9 +25,17 @@ var storage =   multer.diskStorage({
 			callback(null, file.fieldname + '-' + Date.now());
 		}
 });
+var upload = multer({ storage : storage}).single('attachments');
 
+app.post('/api/photo',function(req,res){
+	upload(req,res,function(err) {
+		if(err) {
+			return res.end("Error uploading file.");
+		}
+		res.end("File is uploaded");
+	});
+});
 
-//var upload = multer({ storage : storage}).single('userPhoto');
 
 /*
 //call this function for GET on /
@@ -42,20 +50,9 @@ app.get('/time', function(req, res) {
 });
 */
 
-/*app.post('/api/photo',function(req,res){
-	upload(req,res,function(err) {
-		if(err) {
-			return res.end("Error uploading file.");
-		}
-		res.end("File is uploaded");
-	});
-});*/
 
-var upload = multer({ dest: 'uploads/' })
-app.post('/api/photo', upload.single('userPhoto'), function (req, res, next) {
-  // req.file is the `avatar` file
-  // req.body will hold the text fields, if there were any
-});
+
+
 
 app.get('/api/v1/users', function(req, res) {
 	var users = [
