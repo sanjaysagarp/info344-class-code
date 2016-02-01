@@ -21,6 +21,10 @@ var storage =   multer.diskStorage({
 	destination: function (req, file, callback) {
 		callback(null, './uploads');
 		},
+		limits: { fileSize: 1 * 1024 * 1024}, //32 mb limit
+		onFileUploadStart: function (file, req, res) {
+			console.log(file.fieldname + ' fileupload is starting ...');
+		},
 		filename: function (req, file, callback) {
 			callback(null, file.fieldname + '-' + Date.now());
 		}
@@ -30,6 +34,7 @@ var upload = multer({ storage : storage}).single('attachments');
 app.post('/api/photo',function(req,res){
 	upload(req,res,function(err) {
 		if(err) {
+			console.error(err);
 			return res.end("Error uploading file.");
 		}
 		res.end("File is uploaded");
