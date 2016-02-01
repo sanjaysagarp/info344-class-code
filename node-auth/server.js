@@ -27,7 +27,7 @@ var app = express();
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(session({
-	//need to []
+	//need to export COOKIE_SIG_SECRET=$(uuidgen)
 	secret: cookieSigSecret,
 	resave: false,
 	saveUninitialized: false,
