@@ -7,7 +7,7 @@ node_modules
 # except files ending in `.template` or `.md`
 !**/secret/*.template
 !**/secret/*.md
-
+*.csv
 # ignore .vagrant directory
 .vagrant
 
