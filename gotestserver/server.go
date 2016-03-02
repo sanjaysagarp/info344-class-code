@@ -9,7 +9,7 @@ import (
 
 func hello(w http.ResponseWriter, r *http.Request) {
 	//http.ServeFile(w,r, "views/example.html")
-	renderTemplate(w, "example")
+	renderTemplate(w, "head", "index")
 }
 
 var mux map[string]func(http.ResponseWriter, *http.Request)
@@ -38,11 +38,18 @@ func (*myHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	io.WriteString(w, "My server: "+r.URL.String())
 }
 
-func renderTemplate(w http.ResponseWriter, tmpl string) {
-	t, _ := template.ParseFiles("views/"+ tmpl + ".html")
+func renderTemplate(w http.ResponseWriter, temp1 string, temp2 string) {
+	t, _ := template.ParseFiles("./app/views/"+ temp1 + ".html", "./app/views/" + temp2 + ".html")
 	info := make(map[string]string)
-	info["Title"] = "nsadijfnafjabhsfh"
-	t.Execute(w, info) // compiles data entries from info map into the document
+	info["Title"] = "h0i!"
+	info["Yoshi"] = "Yoshi!"
+	t.ExecuteTemplate(w, "header", &info)
+	//t.ExecuteTemplate(w, "content", info)
+	
+	// t.ExecuteTemplate(os.Stdout,"header", nil)
+	// t.ExecuteTemplate(os.Stdout, "content", nil)
+	
+	// t.Execute(w, info) // compiles data entries from info map into the document
 }
 
 
